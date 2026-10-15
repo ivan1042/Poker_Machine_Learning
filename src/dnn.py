@@ -25,7 +25,7 @@ class ToDenseFloat32(BaseEstimator, TransformerMixin):
             meta,
             hidden_1=32,
             hidden_2=16,
-            dropout=0.10,
+            dropout=0,
             learning_rate=0.001,
     ):
         # SciKeras learns this after the preprocessor runs in each CV fold.
@@ -51,19 +51,22 @@ class ToDenseFloat32(BaseEstimator, TransformerMixin):
 
         return model
 
-early_stop = keras.callbacks.EarlyStopping(
-    monitor="val_loss",
-    patience=10,
-    restore_best_weights=True,
-)
+    early_stop = keras.callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=10,
+        restore_best_weights=True,
+    )
 
-keras_classifier = KerasClassifier(
-    model=build_keras_model,
-    epochs=100,                 # early stopping usually ends earlier
-    batch_size=32,
-    validation_split=0.15,      # taken only from each training fold
-    callbacks=[early_stop],
-    verbose=0,
-    random_state=42,
-)
+    keras_classifier = KerasClassifier(
+        model= build_keras_model,
+        hidden_1=32,
+        hidden_2=16,
+        dropout=0,
+        learning_rate=0.001,
+        epochs=100,                 # early stopping usually ends earlier
+        batch_size=32,    # taken only from each training fold
+        callbacks=[early_stop],
+        verbose=0,
+        random_state=42,
+    )
 
