@@ -25,7 +25,7 @@ class ToDenseFloat32(BaseEstimator, TransformerMixin):
             meta,
             hidden_1=32,
             hidden_2=16,
-            dropout=0,
+            dropout=0.01,
             learning_rate=0.001,
     ):
         # SciKeras learns this after the preprocessor runs in each CV fold.
@@ -61,7 +61,7 @@ class ToDenseFloat32(BaseEstimator, TransformerMixin):
         model= build_keras_model,
         hidden_1=32,
         hidden_2=16,
-        dropout=0,
+        dropout=0.01,
         learning_rate=0.001,
         epochs=100,                 # early stopping usually ends earlier
         batch_size=32,    # taken only from each training fold
